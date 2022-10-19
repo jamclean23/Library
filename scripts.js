@@ -1,6 +1,13 @@
 //Javascript
-const section = document.querySelector('section');
 
+//Constants
+const section = document.querySelector('section');
+const mask = document.querySelector('.mask');
+const headerButtons = document.querySelectorAll('header button');
+const addBookModal = document.querySelector('.addBookModal');
+const removeBookModal = document.querySelector('.removeBookModal');
+
+//Global Functions
 function createBook(title, author, length, read) {
 
     const article = document.createElement('article');
@@ -45,8 +52,6 @@ function createBook(title, author, length, read) {
     const p = document.createElement('p');
     secondDiv.appendChild(p);
 
-    console.log(p);
-
     const readImage = document.createElement('img');
     secondDiv.appendChild(readImage);
 
@@ -60,6 +65,33 @@ function createBook(title, author, length, read) {
 
 }
 
+function startAddBookModal() {
+    mask.classList.toggle('active');
+    addBookModal.classList.toggle('active');
+
+}
+
+function startRemoveBookModal() {
+    mask.classList.toggle('active');
+
+    mask.classList.toggle('active');
+}
+
+//Initiaize Articles
+
 for (i = 0; i < 8; i++) {
     createBook("title", "author", "1000", false);
 }
+
+//Event Listeners
+
+headerButtons.forEach((button) =>{
+    button.addEventListener('click', () =>{
+        if (button.innerText == "Add Book") {
+            startAddBookModal();
+            
+        } else if (button.innerText == "Remove Book") {
+            startRemoveBookModal();
+        }
+    });
+});
