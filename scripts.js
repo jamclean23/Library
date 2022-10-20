@@ -139,6 +139,31 @@ function clearAddBookModal() {
     addBookModalUnread.checked = true;
 }
 
+function submitAdd() {
+    let newBook = {};
+    if (addBookModalTitle.value == "") {
+        addBookModalTitle.setCustomValidity("Please Enter a Title");
+        addBookModalTitle.reportValidity();
+    } else {
+        newBook.title = addBookModalTitle.value;
+        newBook.author = addBookModalAuthor.value;
+        newBook.length = addBookModalLength.value;
+        newBook.read = addBookModalRead.checked;
+        books.push(newBook);
+        console.dir(books);
+        updateBooks();
+        toggleAddBookModal();
+    }
+    clearAddBookModal();
+
+}
+
+function submitRemove() {
+    const selectValue = document.querySelector('select').value;
+    books.splice(selectValue, 1);
+    toggleRemoveBookModal();
+    updateBooks();
+}
 
 //Event Listeners
 
@@ -147,11 +172,7 @@ headerButtons.forEach((button) =>{
     button.addEventListener('click', () =>{
         if (button.innerText == "Add Book") {
             startAddBookModal();
-            addBookModalButtons.forEach((button) =>{
-                if (button.innerText == "Submit") {
-                    button.focus();
-                }
-            });
+            addBookModalTitle.focus();
         } else if (button.innerText == "Remove Book") {
             generateBooksList();
             startRemoveBookModal();
@@ -160,29 +181,31 @@ headerButtons.forEach((button) =>{
 });
 
 
+//If enter/esc is pressed while a modal is open, then submit/cancel;
+document.addEventListener('keydown', (event) =>{
+    if ((addBookModal.classList.contains('active')) && (event.key === "Enter")) {
+        submitAdd();
+    } else if ((removeBookModal.classList.contains("active")) && (event.key === "Enter")) {
+        submitRemove();
+    } else if ((addBookModal.classList.contains('active')) && (event.key === "Escape")) {
+        toggleAddBookModal();
+        clearAddBookModal();
+    } else if ((removeBookModal.classList.contains('active')) && (event.key === "Escape")) {
+        toggleRemoveBookModal();
+    }
+});
+
+
 //Buttons on "Add" modal
 
 addBookModalButtons.forEach((button) =>{
     button.addEventListener('click', () =>{
         if (button.innerText == "Submit") {
-            let newBook = {};
-            if (addBookModalTitle.value == "") {
-                addBookModalTitle.setCustomValidity("Please Enter a Title");
-                addBookModalTitle.reportValidity();
-            } else {
-                newBook.title = addBookModalTitle.value;
-                newBook.author = addBookModalAuthor.value;
-                newBook.length = addBookModalLength.value;
-                newBook.read = addBookModalRead.checked;
-                books.push(newBook);
-                console.dir(books);
-                updateBooks();
-                toggleAddBookModal();
-            }
+            submitAdd();
         } else if (button.innerText == "Cancel") {
             toggleAddBookModal();
+            clearAddBookModal();
         }
-        clearAddBookModal();
 
     })
 });
@@ -191,10 +214,7 @@ addBookModalButtons.forEach((button) =>{
 removeBookModalButtons.forEach((button) => {
     button.addEventListener('click', () => {
         if (button.innerText == "Submit") {
-            const selectValue = document.querySelector('select').value;
-            books.splice(selectValue, 1);
-            toggleRemoveBookModal();
-            updateBooks();
+            submitRemove();
         } else if (button.innerText == "Cancel") {
             toggleRemoveBookModal();
         }
