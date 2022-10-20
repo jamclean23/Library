@@ -49,19 +49,129 @@
     top: 50%;
     left: 50%;
     margin-top: -40vh;
-    margin-left: -20vw;
+    margin-left: -30vw;
     visibility: hidden;
     z-index: 1;
-    width: 40vw;
-    height: 80vh;
+    width: max(425px, 60vw);
+    height: min(500px, 80vh);
+    min-width: 300px;
     background-color: white;
     border-radius: 8px;
     display: grid;
+    padding: 1rem;
+    grid-template-columns: repeat(2, minmax(175px, 20vw));
+    grid-template-rows: 1fr repeat(6, min-content) 1fr min-content;
+    justify-content: center;
+    white-space: nowrap;
+    column-gap: 1rem;
 }
 
 .addBookModal.active {
     visibility: visible;
 
+}
+
+.addBookModal h3 {
+    grid-column: 1 / 3;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.addBookModal input {
+    margin-bottom: 1rem;
+}
+
+.addBookModal label:first-of-type, 
+.addBookModal label:nth-of-type(2) {
+    margin-bottom: .5rem;
+    grid-column: 1/3;
+
+}
+
+.addBookModal label:nth-of-type(3) {
+    margin-bottom: .5rem;
+    grid-column: 1/2;
+}
+
+.addBookModal div:first-of-type {
+    grid-column: 1/2;
+}
+
+.addBookModal div:nth-of-type(2) {
+    grid-column: 2/3;
+}
+
+#title {
+    grid-column: 1/3;
+}
+
+#author {
+    grid-column: 1/3;
+}
+
+#length {
+    grid-column: 1/2;
+    width: 4rem;
+}
+
+.addBookModal button:first-of-type {
+    grid-column: 1/2;
+    align-self: center;
+    justify-self: right;
+}
+
+.addBookModal button:nth-of-type(2) {
+    grid-column: 2/3;
+    align-self: center;
+    justify-self: left;
+}
+
+.removeBookModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -40vh;
+    margin-left: -30vw;
+    visibility: hidden;
+    z-index: 1;
+    width: max(425px, 60vw);
+    height: min(500px, 80vh);
+    min-width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    display: grid;
+    padding: 1rem;
+    justify-content: center;
+    white-space: nowrap;
+    column-gap: 1rem;
+    grid-template-columns: repeat(2, minmax(175px, 20vw));
+
+}
+
+.removeBookModal.active {
+    visibility: visible;
+}
+
+.removeBookModal h3 {
+    grid-column: 1/3;
+    align-self: center;
+    text-align: center;
+}
+
+.removeBookModal select {
+    grid-column: 1/3;
+}
+
+.removeBookModal button:first-of-type {
+    grid-column: 1/2;
+    align-self: center;
+    justify-self: right;
+}
+
+.removeBookModal button:nth-of-type(2) {
+    grid-column: 2/3;
+    align-self: center;
+    justify-self: left;
 }
 
 body {
@@ -123,6 +233,9 @@ button {
     color: white;
     font-weight: bold;
     box-shadow: 2px 2px 2px 2px var(--main-background-color);
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 button:hover {
@@ -144,10 +257,12 @@ section {
     padding: 1rem;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
     height: 80vh;
     overflow: auto;
     box-shadow: inset 0 0 4px 0 var(--background-color);
+    justify-content: center;
+
 
 }
 
@@ -192,6 +307,7 @@ article img {
 
 
 @media (max-width: 800px) {
+
     header {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;

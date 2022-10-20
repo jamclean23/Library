@@ -1,13 +1,47 @@
 //Javascript
 
+
+
 //Constants
+
+const books = [
+    {
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        length: 304,
+        read: true
+    }
+];
 const section = document.querySelector('section');
 const mask = document.querySelector('.mask');
 const headerButtons = document.querySelectorAll('header button');
+const addBookModalButtons = document.querySelectorAll('.addBookModal button');
 const addBookModal = document.querySelector('.addBookModal');
+const addBookModalTitle = document.querySelector('#title');
+const addBookModalAuthor = document.querySelector('#author');
+const addBookModalLength = document.querySelector('#length');
+const addBookModalRead = document.querySelector('#read');
+const addBookModalUnread = document.querySelector('#unread');
 const removeBookModal = document.querySelector('.removeBookModal');
+const removeBookModalButtons = document.querySelectorAll('.removeBookModal button');
+const removeBookModalSelect = document.querySelector('.removeBookModal select optgroup');
+
+
 
 //Global Functions
+
+function updateBooks() {
+    //clear current articles
+    const currentArticles = document.querySelectorAll('article');
+    currentArticles.forEach((article) => {
+        section.removeChild(article);
+    });
+    //Generate new articles
+    books.forEach((book) =>{
+        createBook(book.title, book.author, book.length, book.read);
+    });    
+}
+
 function createBook(title, author, length, read) {
 
     const article = document.createElement('article');
@@ -65,33 +99,106 @@ function createBook(title, author, length, read) {
 
 }
 
-function startAddBookModal() {
+function toggleAddBookModal() {
     mask.classList.toggle('active');
     addBookModal.classList.toggle('active');
+}
 
+function toggleRemoveBookModal() {
+    mask.classList.toggle('active');
+    removeBookModal.classList.toggle('active');
+}
+
+function startAddBookModal() {
+    toggleAddBookModal();
 }
 
 function startRemoveBookModal() {
-    mask.classList.toggle('active');
-
-    mask.classList.toggle('active');
+    toggleRemoveBookModal();
 }
 
-//Initiaize Articles
+function generateBooksList() {
+    const oldOptions = document.querySelectorAll('option');
+    oldOptions.forEach((option) =>{
+        removeBookModalSelect.removeChild(option);
+    });
 
-for (i = 0; i < 8; i++) {
-    createBook("title", "author", "1000", false);
+    books.forEach((book, index) =>{
+        const newOption = document.createElement('option');
+        removeBookModalSelect.appendChild(newOption);
+        newOption.value = index;
+        newOption.innerText = '"' + book.title + '," by ' + book.author;  
+    });
 }
+
+function clearAddBookModal() {
+    addBookModalTitle.value = "";
+    addBookModalAuthor.value = "";
+    addBookModalLength.value = "";
+    addBookModalRead.checked = false;
+    addBookModalUnread.checked = true;
+}
+
 
 //Event Listeners
 
+//Header buttons
 headerButtons.forEach((button) =>{
     button.addEventListener('click', () =>{
         if (button.innerText == "Add Book") {
             startAddBookModal();
             
         } else if (button.innerText == "Remove Book") {
+            generateBooksList();
             startRemoveBookModal();
         }
     });
 });
+
+
+//Buttons on "Add" modal
+addBookModalButtons.forEach((button) =>{
+    button.addEventListener('click', () =>{
+        if (button.innerText == "Submit") {
+            let newBook = {};
+            if (addBookModalTitle.value == "") {
+                addBookModalTitle.setCustomValidity("Please Enter a Title");
+                addBookModalTitle.reportValidity();
+            } else {
+                newBook.title = addBookModalTitle.value;
+                newBook.author = addBookModalAuthor.value;
+                newBook.length = addBookModalLength.value;
+                newBook.read = addBookModalRead.checked;
+                books.push(newBook);
+                console.dir(books);
+                updateBooks();
+                toggleAddBookModal();
+            }
+        } else if (button.innerText == "Cancel") {
+            toggleAddBookModal();
+        }
+        clearAddBookModal();
+
+    })
+});
+
+
+//Buttons on "Remove" modal
+removeBookModalButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (button.innerText == "Submit") {
+            const selectValue = document.querySelector('select').value;
+            books.splice(selectValue, 1);
+            toggleRemoveBookModal();
+            updateBooks();
+        } else if (button.innerText == "Cancel") {
+            toggleRemoveBookModal();
+        }
+    })
+});
+
+
+
+//Initialize Articles
+updateBooks();
+

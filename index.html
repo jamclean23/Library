@@ -35,19 +35,28 @@
         <label for="length">Length: </label>
         <input id="length" type="number">
         <label for="radioContainer"></label>
-        <div id="radioContainer"> 
+        <div>
             <label for="read">Have Read: </label>
             <input type="radio" name="read" id="read" value="read">
-            <label for="unread">Haven't Read: </label>
-            <input type="radio" name="read" id="unread" value="unread">
         </div>
-        <button>Submit</button>
-        <button>Cancel</button>
+        <div>
+            <label for="unread">Haven't Read: </label>
+            <input type="radio" name="read" id="unread" value="unread" checked>
+        </div>
+        <button id="submit">Submit</button>
+        <button id="cancel">Cancel</button>
 
     </div>
 
     <div class="removeBookModal">
-        
+        <h3>Choose A Book to Remove</h3>
+        <select name="books" id="books" size="8">
+            <optgroup label="Books">
+
+            </optgroup>
+        </select>
+        <button id="submit">Submit</button>
+        <button id="cancel">Cancel</button>
     </div>
 
 
