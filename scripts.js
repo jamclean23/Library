@@ -147,7 +147,11 @@ headerButtons.forEach((button) =>{
     button.addEventListener('click', () =>{
         if (button.innerText == "Add Book") {
             startAddBookModal();
-            
+            addBookModalButtons.forEach((button) =>{
+                if (button.innerText == "Submit") {
+                    button.focus();
+                }
+            });
         } else if (button.innerText == "Remove Book") {
             generateBooksList();
             startRemoveBookModal();
@@ -157,6 +161,7 @@ headerButtons.forEach((button) =>{
 
 
 //Buttons on "Add" modal
+
 addBookModalButtons.forEach((button) =>{
     button.addEventListener('click', () =>{
         if (button.innerText == "Submit") {
@@ -181,7 +186,6 @@ addBookModalButtons.forEach((button) =>{
 
     })
 });
-
 
 //Buttons on "Remove" modal
 removeBookModalButtons.forEach((button) => {
