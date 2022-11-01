@@ -140,15 +140,11 @@ function clearAddBookModal() {
 }
 
 function submitAdd() {
-    let newBook = {};
     if (addBookModalTitle.value == "") {
         addBookModalTitle.setCustomValidity("Please Enter a Title");
         addBookModalTitle.reportValidity();
     } else {
-        newBook.title = addBookModalTitle.value;
-        newBook.author = addBookModalAuthor.value;
-        newBook.length = addBookModalLength.value;
-        newBook.read = addBookModalRead.checked;
+        let newBook = new Book;
         books.push(newBook);
         console.dir(books);
         updateBooks();
@@ -156,6 +152,15 @@ function submitAdd() {
     }
     clearAddBookModal();
 
+}
+
+class Book {
+    constructor() {
+        this.title = addBookModalTitle.value;
+        this.author = addBookModalAuthor.value;
+        this.length = addBookModalLength.value;
+        this.read = addBookModalRead.checked;
+    }
 }
 
 function submitRemove() {
